@@ -210,8 +210,6 @@ function giveRiceRoll() {
         <div className="button container">
           <button type="button" className="buttons" onClick={useDiceRoll}>Use dice roll</button>
           <button type="button" className="buttons" onClick={giveRiceRoll}>Give dice roll to opponent</button>
-        </div>
-        <div className="button container">
           <button type="button" className="buttons" onClick={rollDice}>Roll Dice</button>
           <button type="button" className="buttons" onClick={resetGame}>Reset Game</button>
         </div>
