@@ -228,6 +228,7 @@ export default function SnakesAndLadders() {
     setPlayer0(0);
     setPlayer1(0);
     initSnakesandLadders();
+    setTurnInProgress(false);
   }
 
   // useEffect is called every time the gameState variable is updated, since it is included in the dependencies array parameter
@@ -269,10 +270,9 @@ export default function SnakesAndLadders() {
         <div className="button container">
           <button type="button" className="buttons" disabled={!turnInProgress} onClick={useDiceRoll}>Use dice roll</button>
           <button type="button" className="buttons" disabled={!turnInProgress} onClick={giveDiceRoll}>Give dice roll to opponent</button>
-          <button type="button" className="buttons" disabled={turnInProgress} onClick={rollDice}>Roll Dice</button>
-          <button type="button" className="buttons" disabled={turnInProgress} onClick={resetGame}>Reset Game</button>
+          <button type="button" className="buttons" onClick={resetGame}>Reset Game</button>
         </div>
-        <div className="diceResultBox">
+        <div className="diceResultBox" onClick={rollDice} disabled={turnInProgress}>
           {diceValue}
         </div>
       </div>

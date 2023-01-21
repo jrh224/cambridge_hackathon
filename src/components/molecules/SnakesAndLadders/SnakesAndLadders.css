@@ -31,8 +31,15 @@
 .diceResultBox {
   border:2px solid black;
   padding: 5px;
-  width: 15px;
+  width: 30px;
+  height: 30px;
   margin:auto;
+  border-radius: 9px;
+  cursor: pointer;
+  font-size: 25px;
+}
+.diceResultBox:disabled {
+  cursor: not-allowed;
 }
 
 .ball {
@@ -70,6 +77,3 @@
   padding: 5px;
 }
 
-.buttons:disabled {
-
-}
