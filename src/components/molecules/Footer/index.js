@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 export default function Footer() {
   return (
     <div className="footer">
-      <h1 className="h1"> This is a Footer </h1>
+      <h1 className="h1"> This is a Footer asuhnvjnsd </h1>
       <div className="links">
         <Link to="" className="link">
           Home Page
