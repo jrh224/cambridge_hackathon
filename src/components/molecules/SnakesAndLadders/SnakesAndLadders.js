@@ -48,7 +48,7 @@ export default function SnakesAndLadders() {
       path[0] = Math.floor(Math.random()*(100-split)+split);
       path[1] = Math.floor(Math.random()*(split-1)+1);
       arr[path[0]] = path[1];
-      console.log("snakes", split, path[0], path[1]);
+
     }
     setSnakes(arr);
 
@@ -140,7 +140,6 @@ export default function SnakesAndLadders() {
       var result = Math.floor(Math.random() * 6 + 1);
       setDiceValue(result);
       setTurnInProgress(true);
-      console.log(player0)
     }
   }
 
@@ -151,15 +150,14 @@ export default function SnakesAndLadders() {
         if (!(potentialNewPos > 99)) {
           setPlayer0(potentialNewPos);
         }
-        console.log(player0);
       }
       else {
         var potentialNewPos = player1 + diceValue;
         if (!(potentialNewPos > 99)) {
           setPlayer1(potentialNewPos);
         }
-        console.log(player1);
       }
+
       setDiceValue(0);
       setCurrentPlayer((currentPlayer+1)%2);
       setTurnInProgress(false);
@@ -239,9 +237,7 @@ export default function SnakesAndLadders() {
   // useEffect is called every time the gameState variable is updated, since it is included in the dependencies array parameter
   useEffect(() => {}, [gameState]);
 
-  console.log('Before return 0: ',player0);
-  console.log('Before return 1: ',player1);
-  console.log(snakes, ladders)
+
 
   // const bottomButtons = {
 
@@ -272,17 +268,17 @@ export default function SnakesAndLadders() {
           })
         }
       </div>
-      <div>{displayGameText()}</div>
+      <div className={((currentPlayer==0) ? "player1text" : "player0text")}>{displayGameText()}</div>
       <div>
         <div className="button container">
           <button type="button" className="buttons" disabled={!turnInProgress} onClick={useDiceRoll}>Use dice roll</button>
           <button type="button" className="buttons" disabled={!turnInProgress} onClick={giveDiceRoll}>Give dice roll to opponent</button>
           <button type="button" className="buttons" onClick={resetGame}>Reset Game</button>
         </div>
-        <div className="diceResultBox" onClick={rollDice} disabled={turnInProgress}>
+        <div className={(turnInProgress ? "inProgress" : "diceResultBox")} onClick={rollDice}>
           {diceValue}
         </div>
-        <h4>Roll the dice!</h4>
+        <h4 className={(turnInProgress ? "inProgressh4" : "")}>Roll the dice above</h4>
       </div>
     </div>
   );
