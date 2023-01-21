@@ -151,8 +151,8 @@ export default function SnakesAndLadders() {
   }
 
   function editNewPos() {
-    let current_pos = currentPlayer == 0 ? player0 : player1
-    let pot_new_pos = current_pos += diceValue
+    const current_pos = currentPlayer == 0 ? player0 : player1
+    const pot_new_pos = current_pos + diceValue
     if (pot_new_pos > 99) return
     const new_pos = (snakes[compToDis(pot_new_pos)] ?? ladders[compToDis(pot_new_pos)]) ?? -1
     if (new_pos == -1) return
