@@ -3,17 +3,7 @@ import "./NoughtsAndCrosses.css";
 
 export default function NoughtsAndCrosses() {
   // This represents the 3x3 grid - each item in the array corresponds to the symbol played in each of the 9 squares
-  const [gameState, setGameState] = useState([
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-  ]);
+  const [gameState, setGameState] = useState(Array(100).fill(null));
   const [currentPlayer, setCurrentPlayer] = useState("X");
   const [winner, setWinner] = useState(null);
 
@@ -95,7 +85,7 @@ export default function NoughtsAndCrosses() {
 
   // This sets all state variables to their initial values
   function resetGame() {
-    setGameState([null, null, null, null, null, null, null, null, null]);
+    setGameState(Array(100).fill(null));
     setCurrentPlayer("X");
     setWinner(null);
   }

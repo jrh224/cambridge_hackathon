@@ -1,6 +1,7 @@
 import React from "react";
 import { Rotate } from "react-animated-components";
 import NoughtsAndCrosses from "../../components/molecules/NoughtsAndCrosses/NoughtsAndCrosses";
+import PongJH from "../../components/molecules/Pong JH/PongJH";
 
 const Home = () => {
   return (
@@ -24,6 +25,11 @@ const Home = () => {
       <div>
         <h3>An example game of Noughts and Crosses:</h3>
         <NoughtsAndCrosses />
+      </div>
+
+      <div>
+        <h3>A new example game of bar that moves side to side</h3>
+        <PongJH />
       </div>
     </div>
   );
