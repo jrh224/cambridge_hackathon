@@ -194,12 +194,9 @@ export default function SnakesAndLadders() {
 
   // This sets all state variables to their initial values
   function resetGame() {
-    var newGameState = Array(100).fill(null);
-    newGameState[0] = "AB";
-    setGameState(newGameState);
-    
-    setCurrentPlayer("X");
-    setWinner(null);
+    setCurrentPlayer(0);
+    setPlayer0(0);
+    setPlayer1(0);
   }
 
   // useEffect is called every time the gameState variable is updated, since it is included in the dependencies array parameter
