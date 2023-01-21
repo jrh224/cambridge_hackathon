@@ -254,7 +254,7 @@ export default function SnakesAndLadders() {
           //for each game square stored in gameState, create a square to display on the page
           gameState.map((_, pos) => {
             const gotopos = (snakes[pos] ?? ladders[pos]) ?? -1
-            const goto_text = gotopos - pos > 0 ? <div className="snakeText">Go To: {gotopos+1}</div>
+            const goto_text = compToDis(gotopos) - compToDis(pos) < 0 ? <div className="snakeText">Go To: {gotopos+1}</div>
              : <div className="snakeText" style={{color:"red"}}>Go To: {gotopos+1}</div>
             const goto = gotopos != -1 ? goto_text : null
             const cir0 = (pos == disToComp(player0)) ? (<div className="ball" style={{backgroundColor: "red"}}>1</div>) : null
