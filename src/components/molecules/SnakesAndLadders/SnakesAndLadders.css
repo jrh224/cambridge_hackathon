@@ -38,8 +38,37 @@
   cursor: pointer;
   font-size: 25px;
 }
-.diceResultBox:disabled {
+.inProgress {
   cursor: not-allowed;
+  border:2px solid black;
+  padding: 5px;
+  width: 30px;
+  height: 30px;
+  margin:auto;
+  border-radius: 9px;
+  font-size: 25px;
+  opacity: 0.5;
+}
+
+.inProgressh4 {
+  opacity:0;
+}
+
+
+.player1text {
+  color: red;
+  font-weight: bold;
+}
+
+.player0text {
+  color: green;
+  font-weight: bold;
+}
+
+.resetButton {
+  margin: auto;
+  margin-top: 15px;
+  width: 100px;
 }
 
 .ball {
@@ -81,5 +110,9 @@
 .buttons {
   margin:5px;
   padding: 5px;
+}
+
+h4 {
+  margin: 5px;
 }
 

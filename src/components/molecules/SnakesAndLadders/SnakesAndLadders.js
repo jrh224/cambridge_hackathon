@@ -49,7 +49,7 @@ export default function SnakesAndLadders() {
       path[0] = Math.floor(Math.random()*(100-split)+split);
       path[1] = Math.floor(Math.random()*(split-1)+1);
       arr[path[0]] = path[1];
-      console.log("snakes", split, path[0], path[1]);
+
     }
     setSnakes(arr);
 
@@ -146,7 +146,6 @@ export default function SnakesAndLadders() {
       var result = Math.floor(Math.random() * 6 + 1);
       setDiceValue(result);
       setTurnInProgress(true);
-      console.log(player0)
     }
   }
 
@@ -225,9 +224,11 @@ export default function SnakesAndLadders() {
 
   useEffect(() => {resetGame()}, []);
 
-  console.log('Before return 0: ',player0);
-  console.log('Before return 1: ',player1);
-  console.log(snakes, ladders)
+
+
+  // const bottomButtons = {
+
+  // }
 
   return (
     <div className="boardContainer">
@@ -255,17 +256,18 @@ export default function SnakesAndLadders() {
           })
         }
       </div>
-      <div>{displayGameText()}</div>
+      <div className={((currentPlayer==0) ? "player1text" : "player0text")}>{displayGameText()}</div>
       <div>
         <div className="button container">
           <button type="button" className="buttons" disabled={!turnInProgress} onClick={useDiceRoll}>Use dice roll</button>
           <button type="button" className="buttons" disabled={!turnInProgress} onClick={giveDiceRoll}>Give dice roll to opponent</button>
-          <button type="button" className="buttons" onClick={resetGame}>Reset Game</button>
         </div>
-        <div className="diceResultBox" onClick={rollDice} disabled={turnInProgress}>
+        <div className={(turnInProgress ? "inProgress" : "diceResultBox")} onClick={rollDice}>
           {diceValue}
         </div>
-      </div>
+        <h4 className={(turnInProgress ? "inProgressh4" : "")}>Roll the dice above</h4>
+        </div>
+        <button type="button" className="resetButton" onClick={resetGame}>Reset Game</button>
     </div>
   );
 }
