@@ -21,16 +21,29 @@ export default function SnakesAndLadders() {
 
   const [currentPlayer, setCurrentPlayer] = useState("X");
   const [winner, setWinner] = useState(null);
+  const [diceValue, setDiceValue] = useState(0);
 
-function mod(n, m) {
-  return ((n % m) + m) % m;
+  const [turnInProgress, setTurnInProgress] = useState(false);
+
+
+function rollDice() {
+  if (!turnInProgress) {
+    var min1 = Math.ceil(1);
+    var max1 = Math.floor(7);
+    var result = Math.floor(Math.random() * (max1 - min1) + min1); // The maximum is exclusive and the minimum is inclusive
+    setDiceValue(result);
+  }
 }
 
-// function rollDice() {
-//   min = Math.ceil(1);
-//   max = Math.floor(6);
-//   return Math.floor(Math.random() * (max - min) + min); // The maximum is exclusive and the minimum is inclusive
-// }
+function useDiceRoll() {
+    
+  setTurnInProgress(false);
+}
+
+function giveRiceRoll() {
+
+  setTurnInProgress(false);
+}
 
   // When a user clicks a square, we check if the game is still in progress, and if the square is empty
   // If both are true, we draw the current player's symbol in the square and swap the current player
@@ -190,9 +203,17 @@ function mod(n, m) {
       </div>
       <div>{displayGameText()}</div>
       <div>
-        <button type="button" onClick={resetGame}>
-          Reset Game
-        </button>
+        <div className="button container">
+          <button type="button" className="buttons" onClick={useDiceRoll}>Use dice roll</button>
+          <button type="button" className="buttons" onClick={giveRiceRoll}>Give dice roll to opponent</button>
+        </div>
+        <div className="button container">
+          <button type="button" className="buttons" onClick={rollDice}>Roll Dice</button>
+          <button type="button" className="buttons" onClick={resetGame}>Reset Game</button>
+        </div>
+        <div className="diceResultBox">
+          {diceValue}
+        </div>
       </div>
     </div>
   );

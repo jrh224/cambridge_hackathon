@@ -26,3 +26,16 @@
   background-color: lightgrey;
   outline: 1px solid gray;
 }
+
+
+.buttons {
+  padding: 5px;
+  margin: 5px;
+}
+
+.diceResultBox {
+  border:2px solid black;
+  padding: 5px;
+  width: 15px;
+  margin:auto;
+}
