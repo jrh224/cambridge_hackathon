@@ -106,7 +106,7 @@ function mod(n, m) {
   function resetGame() {
     var newGameState = Array(100).fill(null);
     newGameState[0] = "AB";
-    const [gameState, setGameState] = useState(newGameState);ull);
+    const [gameState, setGameState] = useState(newGameState);
     newGameState[0] = "AB";
     const [gameState, setGameState] = useState(newGameState);
     setCurrentPlayer("X");
