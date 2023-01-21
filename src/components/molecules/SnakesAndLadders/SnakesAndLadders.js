@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./SnakesAndLadders.css";
+import kingImage from "./king2.png";
+import knightImage from "./knight.png";
 
 export default function SnakesAndLadders() {
   var newGameState = Array(100).fill(null);
@@ -16,7 +18,7 @@ export default function SnakesAndLadders() {
   const [ladders, setLadders] = useState([]);
   const [shuffles, setShuffles] = useState([]);
 
-  const [diceValue, setDiceValue] = useState(0);
+  const [diceValue, setDiceValue] = useState('?');
   const [turnInProgress, setTurnInProgress] = useState(false);
 
 
@@ -149,32 +151,21 @@ export default function SnakesAndLadders() {
     }
   }
 
-  function editNewPos() {
-    const current_pos = currentPlayer == 0 ? player0 : player1
+  function editNewPos(player) {
+    const current_pos = (player == 0) ? player0 : player1
     const pot_new_pos = current_pos + diceValue
     if (pot_new_pos > 99) return
-    const new_pos = (snakes[compToDis(pot_new_pos)] ?? ladders[compToDis(pot_new_pos)]) ?? -1
-    if (new_pos == -1) return
-    if (currentPlayer == 0) setPlayer0(pot_new_pos)
-    else setPlayer1(pot_new_pos)
+    let new_pos = (snakes[pot_new_pos+1] ?? ladders[pot_new_pos+1]) ?? -1
+    if (new_pos == -1) new_pos = pot_new_pos
+    if (new_pos == 99) setWinner(player+1)
+    if (player == 0) setPlayer0(new_pos)
+    else setPlayer1(new_pos)
   }
   
   function useDiceRoll() {
     if (turnInProgress) {
-      editNewPos()
-      // if (currentPlayer == 0) {
-      //   const potentialNewPos = player0 + diceValue;
-      //   if (!(potentialNewPos > 99)) {
-      //     setPlayer0(potentialNewPos);
-      //   }
-      // }
-      // else {
-      //   var potentialNewPos = player1 + diceValue;
-      //   if (!(potentialNewPos > 99)) {
-      //     setPlayer1(potentialNewPos);
-      //   }
-      // }
-      setDiceValue(0);
+      editNewPos(currentPlayer)
+      setDiceValue('?');
       setCurrentPlayer((currentPlayer+1)%2);
       setTurnInProgress(false);
     }
@@ -182,20 +173,8 @@ export default function SnakesAndLadders() {
 
   function giveDiceRoll() {
     if (turnInProgress) {
-      editNewPos()
-      // if (currentPlayer == 0) {
-      //   const potentialNewPos = player1 + diceValue;
-      //   if (!(potentialNewPos > 99)) {
-      //     setPlayer1(potentialNewPos);
-      //   }
-      // }
-      // else {
-      //   var potentialNewPos = player0 + diceValue;
-      //   if (!(potentialNewPos > 99)) {
-      //     setPlayer0(potentialNewPos);
-      //   }
-      // }
-      setDiceValue(0);
+      editNewPos((currentPlayer+1)%2)
+      setDiceValue('?');
       setCurrentPlayer((currentPlayer+1)%2);
       setTurnInProgress(false);
     }
@@ -204,11 +183,9 @@ export default function SnakesAndLadders() {
   // This determines the text displayed beneath the game
   function displayGameText() {
     if (winner === null) {
-      return "Current player: " + (currentPlayer+1);
-    } else if (winner === "DRAW") {
-      return "It's a draw!";
+      return currentPlayer == 0 ? "Current player: King" : "Current player: Knight"
     } else {
-      return "Player " + winner + " wins!";
+      return winner == 1 ? "King wins!" : "Knight wins!"
     }
   }
 
@@ -220,15 +197,10 @@ export default function SnakesAndLadders() {
     initSnakesandLadders();
     initShuffles();
     setTurnInProgress(false);
+    setDiceValue('?');
   }
 
   useEffect(() => {resetGame()}, []);
-
-
-
-  // const bottomButtons = {
-
-  // }
 
   return (
     <div className="boardContainer">
@@ -240,34 +212,42 @@ export default function SnakesAndLadders() {
             const goto_text = gotopos - compToDis(pos) > 0 ? <div className="snakeText">Go To: {gotopos+1}</div>
              : <div className="snakeText" style={{color:"red"}}>Go To: {gotopos+1}</div>
             const goto = (gotopos != -1 && compToDis(pos) != 1)? goto_text : null
-            const cir0 = (pos == disToComp(player0)) ? (<div className="ball" style={{backgroundColor: "red"}}>1</div>) : null
-            const cir1 = (pos == disToComp(player1)) ? (<div className="ball" style={{backgroundColor: "green"}}>2</div>) : null
+            // const cir0 = (pos == disToComp(player0)) ? (<div className="ball" style={{backgroundColor: "red"}}>1</div>) : null
+            // const cir1 = (pos == disToComp(player1)) ? (<div className="ball" style={{backgroundColor: "green"}}>2</div>) : null
+
+            const cir0 = (pos == disToComp(player0)) ? (<img id="kingSprite" height={35} src={kingImage}></img>) : null
+            const cir1 = (pos == disToComp(player1)) ? (<img id="knightSprite" height={35} src={knightImage}></img>) : null
+            const theodo = pos == 0 ? <h4>THEODO</h4> : null
             
             return (
               <div key={pos} className="empty">
                 <div className="textInBox">
                   {compToDis(pos)}
+                  {theodo}
                 </div>
                 {goto}
                 {cir0}
                 {cir1}
               </div>
-            );
+            )
           })
         }
       </div>
-      <div className={((currentPlayer==0) ? "player1text" : "player0text")}>{displayGameText()}</div>
-      <div>
-        <div className="button container">
-          <button type="button" className="buttons" disabled={!turnInProgress} onClick={useDiceRoll}>Use dice roll</button>
-          <button type="button" className="buttons" disabled={!turnInProgress} onClick={giveDiceRoll}>Give dice roll to opponent</button>
+
+      <div className="allButtons">
+        <div className="allButtonsAgain">
+          <div className={((currentPlayer==0) ? "player1text" : "player0text")}>{displayGameText()}</div>
+          <div className="button container">
+            <button type="button" className="buttons" disabled={!turnInProgress} onClick={useDiceRoll}>Use dice roll</button>
+            <button type="button" className="buttons" disabled={!turnInProgress} onClick={giveDiceRoll}>Give dice roll to opponent</button>
+          </div>
+          <div className={(turnInProgress ? "inProgress" : "diceResultBox")} onClick={rollDice}>
+            {diceValue}
+          </div>
+          <h4 className={(turnInProgress ? "inProgressh4" : "")}>Roll the dice above</h4>
+          </div>
+          <button type="button" className="resetButton" onClick={resetGame}>Reset Game</button>
         </div>
-        <div className={(turnInProgress ? "inProgress" : "diceResultBox")} onClick={rollDice}>
-          {diceValue}
-        </div>
-        <h4 className={(turnInProgress ? "inProgressh4" : "")}>Roll the dice above</h4>
-        </div>
-        <button type="button" className="resetButton" onClick={resetGame}>Reset Game</button>
     </div>
   );
 }
