@@ -18,6 +18,8 @@ export default function SnakesAndLadders() {
   const [diceValue, setDiceValue] = useState(0);
   const [turnInProgress, setTurnInProgress] = useState(false);
 
+
+
   // Computer to display
   function compToDis(pos) {
     const level = Math.floor(pos/10)
@@ -153,11 +155,10 @@ export default function SnakesAndLadders() {
         }
         console.log(player1);
       }
+      setDiceValue(0);
+      setCurrentPlayer((currentPlayer+1)%2);
+      setTurnInProgress(false);
     }
-
-
-
-    setTurnInProgress(false);
   }
 
   function giveDiceRoll() {
@@ -174,9 +175,10 @@ export default function SnakesAndLadders() {
           setPlayer0(potentialNewPos);
         }
       }
+      setDiceValue(0);
+      setCurrentPlayer((currentPlayer+1)%2);
+      setTurnInProgress(false);
     }
-
-    setTurnInProgress(false);
   }
 
   // When a user clicks a square, we check if the game is still in progress, and if the square is empty
@@ -211,7 +213,13 @@ export default function SnakesAndLadders() {
 
   // This determines the text displayed beneath the game
   function displayGameText() {
-    return "Current player: " + currentPlayer;
+    if (winner === null) {
+      return "Current player: " + (currentPlayer+1);
+    } else if (winner === "DRAW") {
+      return "It's a draw!";
+    } else {
+      return "Player " + winner + " wins!";
+    }
   }
 
   // This sets all state variables to their initial values
@@ -259,10 +267,10 @@ export default function SnakesAndLadders() {
       <div>{displayGameText()}</div>
       <div>
         <div className="button container">
-          <button type="button" className="buttons" onClick={useDiceRoll}>Use dice roll</button>
-          <button type="button" className="buttons" onClick={giveDiceRoll}>Give dice roll to opponent</button>
-          <button type="button" className="buttons" onClick={rollDice}>Roll Dice</button>
-          <button type="button" className="buttons" onClick={resetGame}>Reset Game</button>
+          <button type="button" className="buttons" disabled={!turnInProgress} onClick={useDiceRoll}>Use dice roll</button>
+          <button type="button" className="buttons" disabled={!turnInProgress} onClick={giveDiceRoll}>Give dice roll to opponent</button>
+          <button type="button" className="buttons" disabled={turnInProgress} onClick={rollDice}>Roll Dice</button>
+          <button type="button" className="buttons" disabled={turnInProgress} onClick={resetGame}>Reset Game</button>
         </div>
         <div className="diceResultBox">
           {diceValue}
