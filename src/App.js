@@ -21,9 +21,6 @@ function App() {
             <Route path="theodo" element={<Theodo />} />
           </Routes>
         </div>
-        <div className="app-footer">
-          <Footer />
-        </div>
         
       </div>
     </div>
