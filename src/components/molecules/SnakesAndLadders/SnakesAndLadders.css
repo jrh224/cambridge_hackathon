@@ -65,6 +65,12 @@
   font-weight: bold;
 }
 
+.resetButton {
+  margin: auto;
+  margin-top: 15px;
+  width: 100px;
+}
+
 .ball {
   height: 20px;
   width: 20px;

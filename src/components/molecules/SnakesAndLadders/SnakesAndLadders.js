@@ -273,13 +273,13 @@ export default function SnakesAndLadders() {
         <div className="button container">
           <button type="button" className="buttons" disabled={!turnInProgress} onClick={useDiceRoll}>Use dice roll</button>
           <button type="button" className="buttons" disabled={!turnInProgress} onClick={giveDiceRoll}>Give dice roll to opponent</button>
-          <button type="button" className="buttons" onClick={resetGame}>Reset Game</button>
         </div>
         <div className={(turnInProgress ? "inProgress" : "diceResultBox")} onClick={rollDice}>
           {diceValue}
         </div>
         <h4 className={(turnInProgress ? "inProgressh4" : "")}>Roll the dice above</h4>
-      </div>
+        </div>
+        <button type="button" className="resetButton" onClick={resetGame}>Reset Game</button>
     </div>
   );
 }
