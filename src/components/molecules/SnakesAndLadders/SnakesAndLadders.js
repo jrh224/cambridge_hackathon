@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import "./NoughtsAndCrosses.css";
+import "./SnakesAndLadders.css";
 
-export default function NoughtsAndCrosses() {
+export default function SnakesAndLadders() {
   // This represents the 3x3 grid - each item in the array corresponds to the symbol played in each of the 9 squares
   var newGameState = Array(100).fill(null);
-  newGameState[5] = "AB";
+  newGameState[0] = "AB";
   const [gameState, setGameState] = useState(newGameState);
 
   const [boardLayout] = useState(
@@ -104,11 +104,7 @@ function mod(n, m) {
 
   // This sets all state variables to their initial values
   function resetGame() {
-    var newGameState = Array(100).fill(null);
-    newGameState[0] = "AB";
-    const [gameState, setGameState] = useState(newGameState);ull);
-    newGameState[0] = "AB";
-    const [gameState, setGameState] = useState(newGameState);
+    setGameState(Array(100).fill(null));
     setCurrentPlayer("X");
     setWinner(null);
   }
