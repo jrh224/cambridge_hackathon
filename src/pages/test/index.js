@@ -1,5 +1,4 @@
 import {useState, useEffect} from 'react'
-import NewGame from "../../components/molecules/NewGame/NewGame";
 
 const Test = () => {
 
