@@ -39,3 +39,11 @@
   width: 15px;
   margin:auto;
 }
+
+.ball {
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  display: inline-block;
+  background-color: yellow;
+}

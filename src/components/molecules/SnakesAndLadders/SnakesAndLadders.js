@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import "./SnakesAndLadders.css";
 
 export default function SnakesAndLadders() {
-  // This represents the 3x3 grid - each item in the array corresponds to the symbol played in each of the 9 squares
   var newGameState = Array(100).fill(null);
   newGameState[0] = "AB";
   const [gameState, setGameState] = useState(newGameState);
@@ -19,8 +18,27 @@ export default function SnakesAndLadders() {
     ,19,18,17,16,15,14,13,12,11,10
     ,0,1,2,3,4,5,6,7,8,9])
 
-  const [currentPlayer, setCurrentPlayer] = useState("X");
+  const [currentPlayer, setCurrentPlayer] = useState(0);
   const [winner, setWinner] = useState(null);
+
+  const [player1, setPlayer1] = useState(0);
+  const [player2, setPlayer2] = useState(0);
+
+  const [snakes, setSnakes] = useState([]);
+
+  function initPlayer() {
+      setPlayer1(0);
+      setPlayer2(0);
+  }
+
+  function initSnakes() {
+
+  }
+
+  function getSnakes() {
+      
+  }
+
   const [diceValue, setDiceValue] = useState(0);
 
   const [turnInProgress, setTurnInProgress] = useState(false);
@@ -37,8 +55,8 @@ function rollDice() {
 
 function useDiceRoll() {
     
-  setTurnInProgress(false);
-}
+      setTurnInProgress(false);
+  }
 
 function giveRiceRoll() {
 
@@ -143,13 +161,6 @@ function giveRiceRoll() {
       }
     }
   }, [gameState]);
-
-
-
-
-
-  const ROW_SIZE = 10
-  const COL_SIZE = 10
   
   const backgroundStyle = {
     height: "500px",
@@ -159,43 +170,36 @@ function giveRiceRoll() {
     backgroundColor: "white",
     borderRadius: "2px",
     display: 'grid',
-    gridTemplateRows: `repeat(${ROW_SIZE}, 1fr)`,
-    gridTemplateColumns: `repeat(${COL_SIZE}, 1fr)`,
+    gridTemplateRows: `repeat(10, 1fr)`,
+    gridTemplateColumns: `repeat(10, 1fr)`,
     gridGap: "1px"
-  }
-
-  const ball = {
-    justifyContent: "center",
-    height: "25px",
-    width: "25px",
-    borderRadius: "50%",
-    display: "inline-block",
-    backgroundColor: "yellow",
   }
 
   const other = {
     justifyContent: "center",
-    backgroundColor: "grey",
+    backgroundColor: "#ececec",
   }
     
+  const textInBox = {
+    textAlign: "left",
+    fontSize: "10px",
+  }
 
-  
-  
   return (
     <div className="boardContainer">
       <div style={backgroundStyle}>
         {
           //for each game square stored in gameState, create a square to display on the page
-          gameState.map((squareValue, squareIndex) => {
+          gameState.map((_, squareIndex) => {
+            const p1 = (squareIndex == 54) ? (<div className="ball" style={{backgroundColor: "red"}}>1</div>) : null
+            const p2 = (squareIndex == 55) ? (<div className="ball" style={{backgroundColor: "green"}}>2</div>) : null
             return (
-              <div
-                key={squareIndex}
-                onClick={() => {
-                  playTurn(squareIndex);
-                }}
-                style={other}
-              >
-                {gameState[boardLayout[squareIndex]]}
+              <div key={squareIndex} style={other}>
+                <div style={textInBox}>
+                  {boardLayout[squareIndex]+1}
+                </div>
+                {p1}
+                {p2}
               </div>
             );
           })
