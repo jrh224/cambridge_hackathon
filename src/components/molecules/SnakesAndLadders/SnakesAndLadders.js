@@ -183,18 +183,19 @@ export default function SnakesAndLadders() {
 
   function giveDiceRoll() {
     if (turnInProgress) {
-      if (currentPlayer == 0) {
-        const potentialNewPos = player1 + diceValue;
-        if (!(potentialNewPos > 99)) {
-          setPlayer1(potentialNewPos);
-        }
-      }
-      else {
-        var potentialNewPos = player0 + diceValue;
-        if (!(potentialNewPos > 99)) {
-          setPlayer0(potentialNewPos);
-        }
-      }
+      editNewPos()
+      // if (currentPlayer == 0) {
+      //   const potentialNewPos = player1 + diceValue;
+      //   if (!(potentialNewPos > 99)) {
+      //     setPlayer1(potentialNewPos);
+      //   }
+      // }
+      // else {
+      //   var potentialNewPos = player0 + diceValue;
+      //   if (!(potentialNewPos > 99)) {
+      //     setPlayer0(potentialNewPos);
+      //   }
+      // }
       setDiceValue(0);
       setCurrentPlayer((currentPlayer+1)%2);
       setTurnInProgress(false);
