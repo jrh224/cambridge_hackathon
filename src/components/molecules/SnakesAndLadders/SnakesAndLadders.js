@@ -52,10 +52,15 @@ export default function SnakesAndLadders() {
     }
   }
 
-  function useDiceRoll() {
-    
-      setTurnInProgress(false);
+function useDiceRoll() {
+  if (currentPlayer == 0) {
+    var potentialNewPos = 
   }
+
+
+
+  setTurnInProgress(false);
+}
 
   function giveRiceRoll() {
 
