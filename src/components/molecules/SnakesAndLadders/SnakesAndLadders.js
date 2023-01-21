@@ -14,6 +14,7 @@ export default function SnakesAndLadders() {
 
   const [snakes, setSnakes] = useState([]);
   const [ladders, setLadders] = useState([]);
+  const [shuffles, setShuffles] = useState([]);
 
   const [diceValue, setDiceValue] = useState(0);
   const [turnInProgress, setTurnInProgress] = useState(false);
@@ -40,7 +41,7 @@ export default function SnakesAndLadders() {
   }
 
   function initSnakesandLadders() {
-    var num = Math.floor(Math.random()*(10-5)+5);
+    var num = Math.floor(Math.random()*(12-8)+8);
     var arr = new Array(100).fill(null);
     var path = [0,0];
     for (var i = 0; i < num; i++) {
@@ -52,7 +53,7 @@ export default function SnakesAndLadders() {
     }
     setSnakes(arr);
 
-    num = Math.floor(Math.random()*(10-5)+5);
+    num = Math.floor(Math.random()*(12-8)+8);
     arr = new Array(100).fill(null);
     path = [0,0];
     for (var i = 0; i < num; i++) {
@@ -67,9 +68,14 @@ export default function SnakesAndLadders() {
       console.log("ladders", split, path[0], path[1]);
     }
     setLadders(arr);
+  }
 
-    // console.log("snakes", snakes);
-    // console.log("ladders", ladders);
+  function initShuffles() {
+    var arr = [];
+    for (var i = 0; i < 2; i++) {
+      arr.push(Math.floor(Math.random()*(90-10)+10));
+    }
+    setShuffles(arr);
   }
 
   // ----------------------------------------------
@@ -144,22 +150,31 @@ export default function SnakesAndLadders() {
     }
   }
 
+  function editNewPos() {
+    let current_pos = currentPlayer == 0 ? player0 : player1
+    let pot_new_pos = current_pos += diceValue
+    if (pot_new_pos > 99) return
+    const new_pos = (snakes[compToDis(pot_new_pos)] ?? ladders[compToDis(pot_new_pos)]) ?? -1
+    if (new_pos == -1) return
+    if (currentPlayer == 0) setPlayer0(pot_new_pos)
+    else setPlayer1(pot_new_pos)
+  }
+  
   function useDiceRoll() {
     if (turnInProgress) {
-      if (currentPlayer == 0) {
-        const potentialNewPos = player0 + diceValue;
-        if (!(potentialNewPos > 99)) {
-          setPlayer0(potentialNewPos);
-        }
-        console.log(player0);
-      }
-      else {
-        var potentialNewPos = player1 + diceValue;
-        if (!(potentialNewPos > 99)) {
-          setPlayer1(potentialNewPos);
-        }
-        console.log(player1);
-      }
+      editNewPos()
+      // if (currentPlayer == 0) {
+      //   const potentialNewPos = player0 + diceValue;
+      //   if (!(potentialNewPos > 99)) {
+      //     setPlayer0(potentialNewPos);
+      //   }
+      // }
+      // else {
+      //   var potentialNewPos = player1 + diceValue;
+      //   if (!(potentialNewPos > 99)) {
+      //     setPlayer1(potentialNewPos);
+      //   }
+      // }
       setDiceValue(0);
       setCurrentPlayer((currentPlayer+1)%2);
       setTurnInProgress(false);
@@ -186,36 +201,6 @@ export default function SnakesAndLadders() {
     }
   }
 
-  // When a user clicks a square, we check if the game is still in progress, and if the square is empty
-  // If both are true, we draw the current player's symbol in the square and swap the current player
-  function playTurn(pos) {
-    if (winner === null) {
-      if (gameState[pos] === null) {
-        // Update the game board
-        var newGameState = [...gameState]; // This makes a new array that contains all of the values in the gameState array
-        newGameState[pos] = currentPlayer;
-        setGameState(newGameState);
-        // Change the current player
-        if (currentPlayer === "X") {
-          setCurrentPlayer("O");
-        } else {
-          setCurrentPlayer("X");
-        }
-      }
-    }
-  }
-
-  // This returns true if all squares are filled, and returns false otherwise
-  function checkForDraw() {
-    var draw = true;
-    gameState.forEach((gameSquare) => {
-      if (gameSquare === null) {
-        draw = false;
-      }
-    });
-    return draw;
-  }
-
   // This determines the text displayed beneath the game
   function displayGameText() {
     if (winner === null) {
@@ -233,19 +218,15 @@ export default function SnakesAndLadders() {
     setPlayer0(0);
     setPlayer1(0);
     initSnakesandLadders();
+    initShuffles();
     setTurnInProgress(false);
   }
 
-  // useEffect is called every time the gameState variable is updated, since it is included in the dependencies array parameter
-  useEffect(() => {}, [gameState]);
+  useEffect(() => {resetGame()}, []);
 
   console.log('Before return 0: ',player0);
   console.log('Before return 1: ',player1);
   console.log(snakes, ladders)
-
-  // const bottomButtons = {
-
-  // }
 
   return (
     <div className="boardContainer">
@@ -253,12 +234,13 @@ export default function SnakesAndLadders() {
         {
           //for each game square stored in gameState, create a square to display on the page
           gameState.map((_, pos) => {
-            const gotopos = (snakes[pos] ?? ladders[pos]) ?? -1
-            const goto_text = compToDis(gotopos) - compToDis(pos) < 0 ? <div className="snakeText">Go To: {gotopos+1}</div>
+            const gotopos = (snakes[compToDis(pos)] ?? ladders[compToDis(pos)]) ?? -1
+            const goto_text = gotopos - compToDis(pos) > 0 ? <div className="snakeText">Go To: {gotopos+1}</div>
              : <div className="snakeText" style={{color:"red"}}>Go To: {gotopos+1}</div>
-            const goto = gotopos != -1 ? goto_text : null
+            const goto = (gotopos != -1 && compToDis(pos) != 1)? goto_text : null
             const cir0 = (pos == disToComp(player0)) ? (<div className="ball" style={{backgroundColor: "red"}}>1</div>) : null
             const cir1 = (pos == disToComp(player1)) ? (<div className="ball" style={{backgroundColor: "green"}}>2</div>) : null
+            
             return (
               <div key={pos} className="empty">
                 <div className="textInBox">
