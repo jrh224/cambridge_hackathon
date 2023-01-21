@@ -37,33 +37,96 @@ export default function SnakesAndLadders() {
     setPlayer1(0);
   }
 
-  function initSnakes() {
-    var numSnakes = Math.floor(Math.random()*(10-5)+5);
-    var arrSnake = new Array(100).fill(null);
+  function initSnakesandLadders() {
+    var num = Math.floor(Math.random()*(10-5)+5);
+    var arr = new Array(100).fill(null);
     var path = [0,0];
-    for (var i = 0; i < numSnakes; i++) {
+    for (var i = 0; i < num; i++) {
       path[0] = Math.floor(Math.random()*(90-1)+1);
       do {
         path[1] = Math.floor(Math.random()*(90-1)+1);
-      } while (path[1] <= (Math.floor(path[0]/10) + 1) * 10);
-      arrSnake[path[0]] = path[1];
+      } while (path[1] >= (Math.floor(path[0]/10)) * 10);
+      arr[path[0]] = path[1];
     }
-    setSnakes(arrSnake);
+    setSnakes(arr);
+
+    num = Math.floor(Math.random()*(10-5)+5);
+    arr = new Array(100).fill(null);
+    path = [0,0];
+    for (var i = 0; i < num; i++) {
+      do {
+        path[0] = Math.floor(Math.random()*(90-1)+1);
+      } while (snakes[path[0]] != null);
+      do {
+        path[1] = Math.floor(Math.random()*(90-1)+1);
+      } while (snakes[path[1]] != null && path[1] <= (Math.floor(path[0]/10) + 1) * 10);
+      arr[path[0]] = path[1];
+    }
+    setLadders(arr);
   }
 
-  function initLadders() {
-    var numLadders = Math.floor(Math.random()*(10-5)+5);
-    var arrLadder = new Array(100).fill(null);
-    var path = [0,0];
-    for (var i = 0; i < numLadders; i++) {
-      path[0] = Math.floor(Math.random()*(90-1)+1);
-      do {
-        path[1] = Math.floor(Math.random()*(90-1)+1);
-      } while (path[1] <= (Math.floor(path[0]/10) + 1) * 10);
-      arrLadder[path[0]] = path[1];
-    }
-    setLadders(arrLadder);
-  }
+  // ----------------------------------------------
+
+  // jQuery(document).ready(function() {
+  //   var targetOption = {
+  //     anchor: "LeftMiddle",
+  //     maxConnections: 1,
+  //     isSource: false,
+  //     isTarget: true,
+  //     reattach: true,
+  //     endpoint: "Dot",
+  //     connector: [ "Bezier", { curviness: 50 } ],
+  //     setDragAllowedWhenFull: true
+  //   };
+  
+  //   var sourceOption = {
+  //     tolerance: "touch",
+  //     anchor: "RightMiddle",
+  //     maxConnections: 1,
+  //     isSource: true,
+  //     isTarget: false,
+  //     reattach: true,
+  //     endpoint: "Dot",
+  //     connector: [ "Bezier", { curviness: 50 } ],
+  //     setDragAllowedWhenFull: true
+  //   };
+  
+  //   jsPlumb.importDefaults({
+  //     ConnectionsDetachable: true,
+  //     ReattachConnections: true,
+  //     maxConnections: 1,
+  //     Container: "backgroundStyle"
+  //   });
+  
+  //   var questionEndpoints = []; // 'source' and 'target' endpoints
+  
+  //   // "source" click handler
+  //   jQuery("#select_list_lebensbereiche ul > li").click(function() {
+  //     //remove existing start endpoint, if any:
+  //     jsPlumb.deleteEndpoint(questionEndpoints[0]);
+  //     // add a new one on the clicked element:
+  //     questionEndpoints[0] = jsPlumb.addEndpoint(jQuery(this), sourceOption);
+  //     connectEndpoints();
+  //   });
+  
+  //   // "target" endpoint
+  //   jQuery("#select_list_wirkdimensionen ul > li").click(function() {
+  //     if (!questionEndpoints[0]) return; // don't respond if a source hasn't been selected
+  //     // remove existing endpoint if any
+  //     jsPlumb.deleteEndpoint(questionEndpoints[1]);
+  //     //create a new one:
+  //     questionEndpoints[1] = jsPlumb.addEndpoint(jQuery(this), targetOption);
+  //     connectEndpoints();
+  //   });
+  
+  //   var connectEndpoints = function() {
+  //     jsPlumb.connect({
+  //       source: questionEndpoints[0],
+  //       target: questionEndpoints[1]
+  //     });
+  //   }
+  // });
+  // ----------------------------------------------
 
   function rollDice() {
     if (!turnInProgress) {
@@ -135,41 +198,6 @@ export default function SnakesAndLadders() {
     }
   }
 
-  // This checks if the values of the squares in 3 positions are all equal to each other
-  // If they are, the value for each square is returned, otherwise, null is returned
-  function checkLine(gameSquares) {
-    if (
-      gameState[gameSquares[0]] === gameState[gameSquares[1]] &&
-      gameState[gameSquares[1]] === gameState[gameSquares[2]]
-    ) {
-      return gameState[gameSquares[0]];
-    }
-    return null;
-  }
-
-  // This checks all possible rows of length 3 in the grid to see if all values are equal
-  // If a matching row is found with either all X or all O values, the winning player is returned
-  function checkForWinner() {
-    const winningRows = [
-      [0, 1, 2],
-      [3, 4, 5],
-      [6, 7, 8],
-      [0, 3, 6],
-      [1, 4, 7],
-      [2, 5, 8],
-      [0, 4, 8],
-      [2, 4, 6],
-    ];
-    var winningPlayer = null;
-    winningRows.forEach((row) => {
-      const rowWinner = checkLine(row);
-      if (rowWinner !== null) {
-        winningPlayer = rowWinner;
-      }
-    });
-    return winningPlayer;
-  }
-
   // This returns true if all squares are filled, and returns false otherwise
   function checkForDraw() {
     var draw = true;
@@ -183,13 +211,7 @@ export default function SnakesAndLadders() {
 
   // This determines the text displayed beneath the game
   function displayGameText() {
-    if (winner === null) {
-      return "Current player: " + currentPlayer;
-    } else if (winner === "DRAW") {
-      return "It's a draw!";
-    } else {
-      return "Player " + winner + " wins!";
-    }
+    return "Current player: " + currentPlayer;
   }
 
   // This sets all state variables to their initial values
@@ -197,23 +219,19 @@ export default function SnakesAndLadders() {
     setCurrentPlayer(0);
     setPlayer0(0);
     setPlayer1(0);
+    initSnakesandLadders();
   }
 
   // useEffect is called every time the gameState variable is updated, since it is included in the dependencies array parameter
-  useEffect(() => {
-    const possibleWinner = checkForWinner();
-    if (possibleWinner !== null) {
-      setWinner(possibleWinner);
-    } else {
-      const possibleDraw = checkForDraw();
-      if (possibleDraw === true) {
-        setWinner("DRAW");
-      }
-    }
-  }, [gameState]);
+  useEffect(() => {}, [gameState]);
 
   console.log('Before return 0: ',player0);
-  console.log('Before return 1: ',player1)
+  console.log('Before return 1: ',player1);
+  console.log(snakes, ladders)
+
+  // const bottomButtons = {
+
+  // }
 
   return (
     <div className="boardContainer">
@@ -221,6 +239,8 @@ export default function SnakesAndLadders() {
         {
           //for each game square stored in gameState, create a square to display on the page
           gameState.map((_, pos) => {
+            const gotopos = (snakes[pos] ?? ladders[pos]) ?? -1
+            const goto = gotopos >= 0 ? (<div style={{fontSize:"10px", textAlign:"left"}}>Go To: {gotopos}</div>) : null
             const cir0 = (pos == disToComp(player0)) ? (<div className="ball" style={{backgroundColor: "red"}}>1</div>) : null
             const cir1 = (pos == disToComp(player1)) ? (<div className="ball" style={{backgroundColor: "green"}}>2</div>) : null
             return (
@@ -230,6 +250,7 @@ export default function SnakesAndLadders() {
                 </div>
                 {cir0}
                 {cir1}
+                {goto}
               </div>
             );
           })
