@@ -1,29 +1,10 @@
 import {useState, useEffect} from 'react'
+import NewGame from "../../components/molecules/NewGame/NewGame";
+
 const Test = () => {
-
-
-  // const [counter, setCounter] = useState(0);
-  // console.log(counter)
-
-  // useEffect(() => {
-  //   setCounter(counter+1)
-  //   console.log(counter)
-  // }, []);
-
-  //const [counter, setCouter] = useState(0)
-
-  // function someFunction() {setCouter(1)};
-  // useEffect(() => {
-  //   someFunction();
-  //   console.log(counter);
-  // },[])
-
-
-
 
   return (
     <div>
-      <h1>Test Page</h1>
         {/* <button type="button">
           I am a button
         </button>  */}

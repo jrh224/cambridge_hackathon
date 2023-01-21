@@ -4,7 +4,7 @@ import kingImage from "./king2.png";
 import knightImage from "./knight.png";
 
 export default function SnakesAndLadders() {
-  var newGameState = Array(100).fill(null);
+  let newGameState = Array(100).fill(null);
   newGameState[0] = "AB";
   const [gameState, setGameState] = useState(newGameState);
 
@@ -43,11 +43,11 @@ export default function SnakesAndLadders() {
   }
 
   function initSnakesandLadders() {
-    var num = Math.floor(Math.random()*(12-8)+8);
-    var arr = new Array(100).fill(null);
-    var path = [0,0];
-    for (var i = 0; i < num; i++) {
-      var split = 10*Math.floor(Math.random()*(10-1)+1);
+    let num = Math.floor(Math.random()*(12-8)+8);
+    let arr = new Array(100).fill(null);
+    let path = [0,0];
+    for (let i = 0; i < num; i++) {
+      let split = 10*Math.floor(Math.random()*(10-1)+1);
       path[0] = Math.floor(Math.random()*(100-split)+split);
       path[1] = Math.floor(Math.random()*(split-1)+1);
       arr[path[0]] = path[1];
@@ -58,8 +58,8 @@ export default function SnakesAndLadders() {
     num = Math.floor(Math.random()*(12-8)+8);
     arr = new Array(100).fill(null);
     path = [0,0];
-    for (var i = 0; i < num; i++) {
-      var split = 10*Math.floor(Math.random()*(10-1)+1);
+    for (let i = 0; i < num; i++) {
+      let split = 10*Math.floor(Math.random()*(10-1)+1);
       path[0] = Math.floor(Math.random()*(split-1)+1);
       if (snakes[path[0]] != null) {
         i--;
@@ -73,8 +73,8 @@ export default function SnakesAndLadders() {
   }
 
   function initShuffles() {
-    var arr = [];
-    for (var i = 0; i < 2; i++) {
+    let arr = [];
+    for (let i = 0; i < 2; i++) {
       arr.push(Math.floor(Math.random()*(90-10)+10));
     }
     setShuffles(arr);
@@ -145,7 +145,7 @@ export default function SnakesAndLadders() {
 
   function rollDice() {
     if (!turnInProgress) {
-      var result = Math.floor(Math.random() * 6 + 1);
+      let result = Math.floor(Math.random() * 6 + 1);
       setDiceValue(result);
       setTurnInProgress(true);
     }
