@@ -90,11 +90,10 @@ export default function SnakesAndLadders() {
         }
         console.log(player1);
       }
+      setDiceValue(0);
+      setCurrentPlayer((currentPlayer+1)%2);
+      setTurnInProgress(false);
     }
-
-
-
-    setTurnInProgress(false);
   }
 
   function giveDiceRoll() {
@@ -111,9 +110,10 @@ export default function SnakesAndLadders() {
           setPlayer0(potentialNewPos);
         }
       }
+      setDiceValue(0);
+      setCurrentPlayer((currentPlayer+1)%2);
+      setTurnInProgress(false);
     }
-
-    setTurnInProgress(false);
   }
 
   // When a user clicks a square, we check if the game is still in progress, and if the square is empty
@@ -184,7 +184,7 @@ export default function SnakesAndLadders() {
   // This determines the text displayed beneath the game
   function displayGameText() {
     if (winner === null) {
-      return "Current player: " + currentPlayer;
+      return "Current player: " + (currentPlayer+1);
     } else if (winner === "DRAW") {
       return "It's a draw!";
     } else {
