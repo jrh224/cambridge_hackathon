@@ -46,3 +46,26 @@
   border-radius: 50%;
   display: inline-block;
 }
+
+.empty {
+  justify-content: center;
+  background-color: #ececec;
+}
+
+.textInBox {
+  text-align: left;
+  font-size: 10px;
+}
+
+.backgroundStyle {
+  height: 500px;
+  width: 500px;
+  border-style: solid;
+  justify-content: center;
+  background-color: white;
+  border-radius: 2px;
+  display: grid;
+  grid-template-rows: repeat(10, 1fr);
+  grid-template-columns: repeat(10, 1fr);
+  grid-gap: 1px
+}

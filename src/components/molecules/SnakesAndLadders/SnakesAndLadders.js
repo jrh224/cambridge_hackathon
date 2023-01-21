@@ -6,18 +6,6 @@ export default function SnakesAndLadders() {
   newGameState[0] = "AB";
   const [gameState, setGameState] = useState(newGameState);
 
-  const [boardLayout] = useState(
-    [99,98,97,96,95,94,93,92,91,90
-    ,80,81,82,83,84,85,86,87,88,89
-    ,79,78,77,76,75,74,73,72,71,70
-    ,60,61,62,63,64,65,66,67,68,69
-    ,59,58,57,56,55,54,53,52,51,50
-    ,40,41,42,43,44,45,46,47,48,49
-    ,39,38,37,36,35,34,33,32,31,30
-    ,20,21,22,23,24,25,26,27,28,29
-    ,19,18,17,16,15,14,13,12,11,10
-    ,0,1,2,3,4,5,6,7,8,9])
-
   const [currentPlayer, setCurrentPlayer] = useState(0);
   const [winner, setWinner] = useState(null);
 
@@ -27,23 +15,55 @@ export default function SnakesAndLadders() {
   const [snakes, setSnakes] = useState([]);
   const [ladders, setLadders] = useState([]);
 
+  const [diceValue, setDiceValue] = useState(0);
+  const [turnInProgress, setTurnInProgress] = useState(false);
+
+  // Computer to display
+  function compToDis(pos) {
+    const level = Math.floor(pos/10)
+    const mod_pos = level % 2 == 1 ? pos+1 : level*10 + (10 - pos%10)
+    return mod_pos - (level-4.5)*20
+  }
+
+  // Display to computer
+  function disToComp(pos) {
+    const level = Math.floor(pos/10)
+    const mod_pos = level % 2 == 0 ? pos+1 : level*10 + (10 - pos%10)
+    return mod_pos - (level-4.5)*20 - 1
+  }
+  
   function initPlayer() {
-      setPlayer0(0);
-      setPlayer1(0);
+    setPlayer0(0);
+    setPlayer1(0);
   }
 
   function initSnakes() {
-    
+    var numSnakes = Math.floor(Math.random()*(10-5)+5);
+    var arrSnake = new Array(100).fill(null);
+    var path = [0,0];
+    for (var i = 0; i < numSnakes; i++) {
+      path[0] = Math.floor(Math.random()*(90-1)+1);
+      do {
+        path[1] = Math.floor(Math.random()*(90-1)+1);
+      } while (path[1] <= (Math.floor(path[0]/10) + 1) * 10);
+      arrSnake[path[0]] = path[1];
+    }
+    setSnakes(arrSnake);
   }
 
-  function getSnakes() {
-      
+  function initLadders() {
+    var numLadders = Math.floor(Math.random()*(10-5)+5);
+    var arrLadder = new Array(100).fill(null);
+    var path = [0,0];
+    for (var i = 0; i < numLadders; i++) {
+      path[0] = Math.floor(Math.random()*(90-1)+1);
+      do {
+        path[1] = Math.floor(Math.random()*(90-1)+1);
+      } while (path[1] <= (Math.floor(path[0]/10) + 1) * 10);
+      arrLadder[path[0]] = path[1];
+    }
+    setLadders(arrLadder);
   }
-
-  const [diceValue, setDiceValue] = useState(0);
-
-  const [turnInProgress, setTurnInProgress] = useState(false);
-
 
   function rollDice() {
     if (!turnInProgress) {
@@ -98,12 +118,12 @@ export default function SnakesAndLadders() {
 
   // When a user clicks a square, we check if the game is still in progress, and if the square is empty
   // If both are true, we draw the current player's symbol in the square and swap the current player
-  function playTurn(squareIndex) {
+  function playTurn(pos) {
     if (winner === null) {
-      if (gameState[squareIndex] === null) {
+      if (gameState[pos] === null) {
         // Update the game board
         var newGameState = [...gameState]; // This makes a new array that contains all of the values in the gameState array
-        newGameState[squareIndex] = currentPlayer;
+        newGameState[pos] = currentPlayer;
         setGameState(newGameState);
         // Change the current player
         if (currentPlayer === "X") {
@@ -194,48 +214,25 @@ export default function SnakesAndLadders() {
       }
     }
   }, [gameState]);
-  
-  const backgroundStyle = {
-    height: "500px",
-    width: "500px",
-    borderStyle: "solid",
-    justifyContent: "center",
-    backgroundColor: "white",
-    borderRadius: "2px",
-    display: 'grid',
-    gridTemplateRows: `repeat(10, 1fr)`,
-    gridTemplateColumns: `repeat(10, 1fr)`,
-    gridGap: "1px"
-  }
-
-  const other = {
-    justifyContent: "center",
-    backgroundColor: "#ececec",
-  }
-    
-  const textInBox = {
-    textAlign: "left",
-    fontSize: "10px",
-  }
 
   console.log('Before return 0: ',player0);
   console.log('Before return 1: ',player1)
 
   return (
     <div className="boardContainer">
-      <div style={backgroundStyle}>
+      <div className="backgroundStyle">
         {
           //for each game square stored in gameState, create a square to display on the page
-          gameState.map((_, squareIndex) => {
-            const p1 = (squareIndex == 54) ? (<div className="ball" style={{backgroundColor: "red"}}>1</div>) : null
-            const p2 = (squareIndex == 55) ? (<div className="ball" style={{backgroundColor: "green"}}>2</div>) : null
+          gameState.map((_, pos) => {
+            const cir0 = (pos == disToComp(player0)) ? (<div className="ball" style={{backgroundColor: "red"}}>1</div>) : null
+            const cir1 = (pos == disToComp(player1)) ? (<div className="ball" style={{backgroundColor: "green"}}>2</div>) : null
             return (
-              <div key={squareIndex} style={other}>
-                <div style={textInBox}>
-                  {boardLayout[squareIndex]+1}
+              <div key={pos} className="empty">
+                <div className="textInBox">
+                  {compToDis(pos)}
                 </div>
-                {p1}
-                {p2}
+                {cir0}
+                {cir1}
               </div>
             );
           })
