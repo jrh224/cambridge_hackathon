@@ -49,20 +49,49 @@ export default function SnakesAndLadders() {
     if (!turnInProgress) {
       var result = Math.floor(Math.random() * 6 + 1);
       setDiceValue(result);
+      setTurnInProgress(true);
+      console.log(player0)
     }
   }
 
-function useDiceRoll() {
-  if (currentPlayer == 0) {
-    var potentialNewPos = 
+  function useDiceRoll() {
+    if (turnInProgress) {
+      if (currentPlayer == 0) {
+        const potentialNewPos = player0 + diceValue;
+        if (!(potentialNewPos > 99)) {
+          setPlayer0(potentialNewPos);
+        }
+        console.log(player0);
+      }
+      else {
+        var potentialNewPos = player1 + diceValue;
+        if (!(potentialNewPos > 99)) {
+          setPlayer1(potentialNewPos);
+        }
+        console.log(player1);
+      }
+    }
+
+
+
+    setTurnInProgress(false);
   }
 
-
-
-  setTurnInProgress(false);
-}
-
-  function giveRiceRoll() {
+  function giveDiceRoll() {
+    if (turnInProgress) {
+      if (currentPlayer == 0) {
+        const potentialNewPos = player1 + diceValue;
+        if (!(potentialNewPos > 99)) {
+          setPlayer1(potentialNewPos);
+        }
+      }
+      else {
+        var potentialNewPos = player0 + diceValue;
+        if (!(potentialNewPos > 99)) {
+          setPlayer0(potentialNewPos);
+        }
+      }
+    }
 
     setTurnInProgress(false);
   }
@@ -189,6 +218,9 @@ function useDiceRoll() {
     fontSize: "10px",
   }
 
+  console.log('Before return 0: ',player0);
+  console.log('Before return 1: ',player1)
+
   return (
     <div className="boardContainer">
       <div style={backgroundStyle}>
@@ -213,7 +245,7 @@ function useDiceRoll() {
       <div>
         <div className="button container">
           <button type="button" className="buttons" onClick={useDiceRoll}>Use dice roll</button>
-          <button type="button" className="buttons" onClick={giveRiceRoll}>Give dice roll to opponent</button>
+          <button type="button" className="buttons" onClick={giveDiceRoll}>Give dice roll to opponent</button>
           <button type="button" className="buttons" onClick={rollDice}>Roll Dice</button>
           <button type="button" className="buttons" onClick={resetGame}>Reset Game</button>
         </div>
