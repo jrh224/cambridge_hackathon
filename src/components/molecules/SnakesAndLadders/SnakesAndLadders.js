@@ -44,11 +44,11 @@ export default function SnakesAndLadders() {
     var arr = new Array(100).fill(null);
     var path = [0,0];
     for (var i = 0; i < num; i++) {
-      path[0] = Math.floor(Math.random()*(90-1)+1);
-      do {
-        path[1] = Math.floor(Math.random()*(90-1)+1);
-      } while (path[1] >= (Math.floor(path[0]/10)) * 10);
+      var split = 10*Math.floor(Math.random()*(10-1)+1);
+      path[0] = Math.floor(Math.random()*(100-split)+split);
+      path[1] = Math.floor(Math.random()*(split-1)+1);
       arr[path[0]] = path[1];
+      console.log("snakes", split, path[0], path[1]);
     }
     setSnakes(arr);
 
@@ -56,15 +56,20 @@ export default function SnakesAndLadders() {
     arr = new Array(100).fill(null);
     path = [0,0];
     for (var i = 0; i < num; i++) {
-      do {
-        path[0] = Math.floor(Math.random()*(90-1)+1);
-      } while (snakes[path[0]] != null);
-      do {
-        path[1] = Math.floor(Math.random()*(90-1)+1);
-      } while (snakes[path[1]] != null && path[1] <= (Math.floor(path[0]/10) + 1) * 10);
+      var split = 10*Math.floor(Math.random()*(10-1)+1);
+      path[0] = Math.floor(Math.random()*(split-1)+1);
+      if (snakes[path[0]] != null) {
+        i--;
+        continue;
+      }
+      path[1] = Math.floor(Math.random()*(100-split)+split);
       arr[path[0]] = path[1];
+      console.log("ladders", split, path[0], path[1]);
     }
     setLadders(arr);
+
+    // console.log("snakes", snakes);
+    // console.log("ladders", ladders);
   }
 
   // ----------------------------------------------
@@ -248,7 +253,9 @@ export default function SnakesAndLadders() {
           //for each game square stored in gameState, create a square to display on the page
           gameState.map((_, pos) => {
             const gotopos = (snakes[pos] ?? ladders[pos]) ?? -1
-            const goto = gotopos >= 0 ? (<div style={{fontSize:"10px", textAlign:"left"}}>Go To: {gotopos}</div>) : null
+            const goto_text = gotopos - pos > 0 ? <div className="snakeText">Go To: {gotopos+1}</div>
+             : <div className="snakeText" style={{color:"red"}}>Go To: {gotopos+1}</div>
+            const goto = gotopos != -1 ? goto_text : null
             const cir0 = (pos == disToComp(player0)) ? (<div className="ball" style={{backgroundColor: "red"}}>1</div>) : null
             const cir1 = (pos == disToComp(player1)) ? (<div className="ball" style={{backgroundColor: "green"}}>2</div>) : null
             return (
@@ -256,9 +263,9 @@ export default function SnakesAndLadders() {
                 <div className="textInBox">
                   {compToDis(pos)}
                 </div>
+                {goto}
                 {cir0}
                 {cir1}
-                {goto}
               </div>
             );
           })
