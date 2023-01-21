@@ -26,6 +26,12 @@ function mod(n, m) {
   return ((n % m) + m) % m;
 }
 
+// function rollDice() {
+//   min = Math.ceil(1);
+//   max = Math.floor(6);
+//   return Math.floor(Math.random() * (max - min) + min); // The maximum is exclusive and the minimum is inclusive
+// }
+
   // When a user clicks a square, we check if the game is still in progress, and if the square is empty
   // If both are true, we draw the current player's symbol in the square and swap the current player
   function playTurn(squareIndex) {
@@ -104,7 +110,10 @@ function mod(n, m) {
 
   // This sets all state variables to their initial values
   function resetGame() {
-    setGameState(Array(100).fill(null));
+    var newGameState = Array(100).fill(null);
+    newGameState[0] = "AB";
+    setGameState(newGameState);
+    
     setCurrentPlayer("X");
     setWinner(null);
   }
@@ -122,6 +131,46 @@ function mod(n, m) {
     }
   }, [gameState]);
 
+
+
+  
+  const backgroundStyle = {
+    height: "600px",
+    width: "600px",
+    borderStyle: "solid",
+    justifyContent: "center",
+    backgroundColor: "white",
+    borderRadius: "2px",
+    display: 'grid',
+    gridTemplateRows: `repeat(${ROW_SIZE}, 1fr)`,
+    gridTemplateColumns: `repeat(${COL_SIZE}, 1fr)`,
+    gridGap: "1px"
+  }
+
+  const ball = {
+    justifyContent: "center",
+    height: "25px",
+    width: "25px",
+    borderRadius: "50%",
+    display: "inline-block",
+    backgroundColor: "yellow",
+  }
+
+  const other = {
+    justifyContent: "center",
+    backgroundColor: "grey",
+  }
+    
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   return (
     <div className="boardContainer">
       <div className="gameBoard">
