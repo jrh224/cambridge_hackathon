@@ -21,18 +21,19 @@ export default function SnakesAndLadders() {
   const [currentPlayer, setCurrentPlayer] = useState(0);
   const [winner, setWinner] = useState(null);
 
+  const [player0, setPlayer0] = useState(0);
   const [player1, setPlayer1] = useState(0);
-  const [player2, setPlayer2] = useState(0);
 
   const [snakes, setSnakes] = useState([]);
+  const [ladders, setLadders] = useState([]);
 
   function initPlayer() {
+      setPlayer0(0);
       setPlayer1(0);
-      setPlayer2(0);
   }
 
   function initSnakes() {
-
+    
   }
 
   function getSnakes() {
@@ -44,24 +45,22 @@ export default function SnakesAndLadders() {
   const [turnInProgress, setTurnInProgress] = useState(false);
 
 
-function rollDice() {
-  if (!turnInProgress) {
-    var min1 = Math.ceil(1);
-    var max1 = Math.floor(7);
-    var result = Math.floor(Math.random() * (max1 - min1) + min1); // The maximum is exclusive and the minimum is inclusive
-    setDiceValue(result);
+  function rollDice() {
+    if (!turnInProgress) {
+      var result = Math.floor(Math.random() * 6 + 1);
+      setDiceValue(result);
+    }
   }
-}
 
-function useDiceRoll() {
+  function useDiceRoll() {
     
       setTurnInProgress(false);
   }
 
-function giveRiceRoll() {
+  function giveRiceRoll() {
 
-  setTurnInProgress(false);
-}
+    setTurnInProgress(false);
+  }
 
   // When a user clicks a square, we check if the game is still in progress, and if the square is empty
   // If both are true, we draw the current player's symbol in the square and swap the current player
