@@ -18,6 +18,8 @@ export default function SnakesAndLadders() {
   const [diceValue, setDiceValue] = useState(0);
   const [turnInProgress, setTurnInProgress] = useState(false);
 
+
+
   // Computer to display
   function compToDis(pos) {
     const level = Math.floor(pos/10)
@@ -238,10 +240,10 @@ export default function SnakesAndLadders() {
       <div>{displayGameText()}</div>
       <div>
         <div className="button container">
-          <button type="button" className="buttons" onClick={useDiceRoll}>Use dice roll</button>
-          <button type="button" className="buttons" onClick={giveDiceRoll}>Give dice roll to opponent</button>
-          <button type="button" className="buttons" onClick={rollDice}>Roll Dice</button>
-          <button type="button" className="buttons" onClick={resetGame}>Reset Game</button>
+          <button type="button" className="buttons" disabled={!turnInProgress} onClick={useDiceRoll}>Use dice roll</button>
+          <button type="button" className="buttons" disabled={!turnInProgress} onClick={giveDiceRoll}>Give dice roll to opponent</button>
+          <button type="button" className="buttons" disabled={turnInProgress} onClick={rollDice}>Roll Dice</button>
+          <button type="button" className="buttons" disabled={turnInProgress} onClick={resetGame}>Reset Game</button>
         </div>
         <div className="diceResultBox">
           {diceValue}

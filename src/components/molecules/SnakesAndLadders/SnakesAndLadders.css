@@ -28,11 +28,6 @@
 }
 
 
-.buttons {
-  padding: 5px;
-  margin: 5px;
-}
-
 .diceResultBox {
   border:2px solid black;
   padding: 5px;
@@ -68,4 +63,13 @@
   grid-template-rows: repeat(10, 1fr);
   grid-template-columns: repeat(10, 1fr);
   grid-gap: 1px
+}
+
+.buttons {
+  margin:5px;
+  padding: 5px;
+}
+
+.buttons:disabled {
+
 }
