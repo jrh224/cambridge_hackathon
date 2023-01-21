@@ -133,10 +133,14 @@ function mod(n, m) {
 
 
 
+
+
+  const ROW_SIZE = 10
+  const COL_SIZE = 10
   
   const backgroundStyle = {
-    height: "600px",
-    width: "600px",
+    height: "500px",
+    width: "500px",
     borderStyle: "solid",
     justifyContent: "center",
     backgroundColor: "white",
@@ -161,19 +165,12 @@ function mod(n, m) {
     backgroundColor: "grey",
   }
     
-  
-  
-  
-  
-  
-  
-  
-  
+
   
   
   return (
     <div className="boardContainer">
-      <div className="gameBoard">
+      <div style={backgroundStyle}>
         {
           //for each game square stored in gameState, create a square to display on the page
           gameState.map((squareValue, squareIndex) => {
@@ -183,7 +180,7 @@ function mod(n, m) {
                 onClick={() => {
                   playTurn(squareIndex);
                 }}
-                className="gameSquare"
+                style={other}
               >
                 {gameState[boardLayout[squareIndex]]}
               </div>
