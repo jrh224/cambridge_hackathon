@@ -282,6 +282,7 @@ export default function SnakesAndLadders() {
         <div className="diceResultBox" onClick={rollDice} disabled={turnInProgress}>
           {diceValue}
         </div>
+        <h4>Roll the dice!</h4>
       </div>
     </div>
   );
